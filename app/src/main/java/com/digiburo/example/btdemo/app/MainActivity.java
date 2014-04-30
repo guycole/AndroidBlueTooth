@@ -1,36 +1,65 @@
 package com.digiburo.example.btdemo.app;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 
+import com.digiburo.example.btdemo.R;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements FragmentListener {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+  public static final int ENABLE_BLUETOOTH_REQUEST = 2718;
+
+  private TabHelper tabHelper;
+
+  private final String LOG_TAG = getClass().getName();
+
+  /**
+   * request the platform bluetooth enable dialog
+   */
+  public void requestBlueToothDialog() {
+    Log.d(LOG_TAG, "request BT dialog");
+    Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+    startActivityForResult(intent, ENABLE_BLUETOOTH_REQUEST);
+
+    BlueToothHelper bth = new BlueToothHelper();
+    bth.setup(bth.getAdapter());
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+    super.onActivityResult(requestCode, resultCode, intent);
+
+    Log.d(LOG_TAG, "on activity result:" + requestCode + ":" + resultCode + ":" + intent);
+
+    if (resultCode == RESULT_CANCELED) {
+      Log.d(LOG_TAG, "cancel noted");
+      return;
     }
 
+    //TODO test for result code
+
+    if (intent != null) {
+      Log.d(LOG_TAG, "getAction:" + intent.getAction());
+    }
+  }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    ActionBar actionBar = getSupportActionBar();
+    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+    tabHelper = new TabHelper(this);
+    tabHelper.initialize();
+  }
 }
+/*
+ * Copyright 2014 Digital Burro, INC
+ * Created on April 29, 2014 by gsc
+ */

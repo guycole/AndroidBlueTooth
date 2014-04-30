@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+    >
+
+  <Button
+    android:id="@+id/buttonEnable"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/button_enable"/>
+
+  <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:stretchColumns="1">
+
+    <TableRow>
+      <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="@string/label_adapter_address"/>
+      <TextView
+        android:id="@+id/textAddress01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/unknown"/>
+    </TableRow>
+
+    <TableRow>
+      <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="@string/label_adapter_name"/>
+      <TextView
+        android:id="@+id/textName01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/unknown"/>
+    </TableRow>
+
+    <TableRow>
+      <TextView
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_gravity="right"
+          android:text="@string/label_enabled"/>
+      <TextView
+          android:id="@+id/textEnabled01"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/unknown"/>
+    </TableRow>
+
+    <TableRow>
+      <TextView
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_gravity="right"
+          android:text="@string/label_bonded_devices"/>
+      <TextView
+          android:id="@+id/textBondedDevice01"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/unknown"/>
+    </TableRow>
+
+    <TableRow>
+      <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="@string/label_state"/>
+      <TextView
+        android:id="@+id/textState01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/unknown"/>
+    </TableRow>
+
+    <TableRow>
+      <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="@string/label_scan"/>
+      <TextView
+        android:id="@+id/textScan01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/unknown"/>
+    </TableRow>
+  </TableLayout>
+</LinearLayout>
