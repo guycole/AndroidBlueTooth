@@ -10,4 +10,19 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:text="@string/button_discovery"/>
+
+  <ListView
+      android:id="@+id/android:list"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:drawSelectorOnTop="false"/>
+
+  <!-- no rows default -->
+  <TextView
+      android:id="@+id/android:empty"
+      android:text="@string/label_no_rows"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center"/>
+
 </LinearLayout>

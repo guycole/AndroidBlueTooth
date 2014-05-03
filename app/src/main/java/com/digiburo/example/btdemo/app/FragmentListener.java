@@ -10,6 +10,10 @@ public interface FragmentListener {
    */
   void requestBlueToothDialog();
 
+  /**
+   * make this platform discoverable
+   */
+  void makeDiscoverable();
 }
 /*
  * Copyright 2014 Digital Burro, INC

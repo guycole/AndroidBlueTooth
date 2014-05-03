@@ -55,6 +55,19 @@ public class ConfigureFragment extends Fragment {
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
+    Button discoverableButton = (Button) getActivity().findViewById(R.id.buttonDiscoverable);
+    discoverableButton.setOnClickListener(new View.OnClickListener() {
+
+      /**
+       * invoke scan function
+       * @param view
+       */
+      @Override
+      public void onClick(View view) {
+      fragmentListener.makeDiscoverable();
+      }
+    });
+
     Button enableButton = (Button) getActivity().findViewById(R.id.buttonEnable);
     enableButton.setOnClickListener(new View.OnClickListener() {
 

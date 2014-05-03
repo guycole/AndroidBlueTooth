@@ -8,18 +8,23 @@
   <string name="action_bar_tab_configuration">Configuration</string>
   <string name="action_bar_tab_discovery">Discovery</string>
 
+  <string name="button_discoverable">Discoverable</string>
   <string name="button_discovery">Discovery</string>
   <string name="button_enable">Enable BlueTooth</string>
+
+  <string name="discovery_menu_pair">Pair</string>
 
   <string name="label_adapter_address">Adapter Address:</string>
   <string name="label_adapter_name">Adapter Name:</string>
   <string name="label_bonded_devices">Bonded Devices:</string>
   <string name="label_enabled">Enabled:</string>
+  <string name="label_no_rows">No Rows</string>
   <string name="label_scan">Scan:</string>
   <string name="label_state">State:</string>
 
   <string name="toast_must_enable_bluetooth">Must Enable BlueTooth</string>
   <string name="toast_start_discovery">Starting Discovery</string>
+  <string name="toast_stop_discovery">Discovery Complete</string>
 
   <string name="connectable">Connectable</string>
   <string name="discoverable">Discoverable</string>

@@ -18,6 +18,7 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
   private final String LOG_TAG = getClass().getName();
 
   /**
+   * FragmentListener
    * request the platform bluetooth enable dialog
    */
   public void requestBlueToothDialog() {
@@ -27,6 +28,18 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
 
     BlueToothHelper bth = new BlueToothHelper();
     bth.setup(bth.getAdapter());
+  }
+
+  /**
+   * FragmentListener
+   * make this platform discoverable
+   */
+  public void makeDiscoverable() {
+    Log.d(LOG_TAG, "make discoverable");
+
+    Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+    intent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 120);
+    startActivity(intent);
   }
 
   @Override

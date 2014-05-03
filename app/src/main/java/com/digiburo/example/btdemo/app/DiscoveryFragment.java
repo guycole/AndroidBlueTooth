@@ -8,23 +8,35 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.digiburo.example.btdemo.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Shameless self prom
- * Implemented as a WebView w/local HTML content
+ * List of discovered bluetooth devices
  */
-public class DiscoveryFragment extends Fragment {
+public class DiscoveryFragment extends ListFragment {
 
   public static final String FRAGMENT_TAG = "TAG_SCAN";
+
+  private DiscoveryArrayAdapter discoveryArrayAdapter;
+
+  private List<BluetoothDevice> discoveryList = new ArrayList<BluetoothDevice>();
 
   private FragmentListener fragmentListener;
 
@@ -41,30 +53,12 @@ public class DiscoveryFragment extends Fragment {
 
       if (BluetoothDevice.ACTION_FOUND.equals(action)) {
         BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-        System.out.println(device.getName() + ":" + device.getAddress());
+        discoveryArrayAdapter.add(device);
+      } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
+        Toast.makeText(getActivity(), R.string.toast_stop_discovery, Toast.LENGTH_LONG).show();
       }
     }
   };
-
-  /*
-  private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-    @Override
-    public void onReceive(Context context, Intent intent) {
-      Log.d(LOG_TAG, "onReceive entry");
-
-      String action = intent.getAction();
-      // When discovery finds a device
-      if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-        // Get the BluetoothDevice object from the Intent
-        BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-        // Add the name and address to an array adapter to show in a ListView
-//        mArrayAdapter.add(device.getName() + "\n" + device.getAddress());
-        System.out.println("device:" + device);
-      }
-    }
-  };
-  */
-
 
   /**
    * mandatory empty ctor
@@ -93,14 +87,11 @@ public class DiscoveryFragment extends Fragment {
     Button discoveryButton = (Button) getActivity().findViewById(R.id.buttonDiscovery);
     discoveryButton.setOnClickListener(new View.OnClickListener() {
 
-      /**
-       * invoke scan function
-       * @param view
-       */
       @Override
       public void onClick(View view) {
         BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
         if (adapter.isEnabled()) {
+          discoveryArrayAdapter.clear();
           adapter.startDiscovery();
           Toast.makeText(getActivity(), R.string.toast_start_discovery, Toast.LENGTH_LONG).show();
         } else {
@@ -108,12 +99,21 @@ public class DiscoveryFragment extends Fragment {
         }
       }
     });
+
+    discoveryArrayAdapter = new DiscoveryArrayAdapter(getActivity(), discoveryList);
+    setListAdapter(discoveryArrayAdapter);
+    registerForContextMenu(getListView());
   }
 
   @Override
   public void onResume() {
     super.onResume();
-    getActivity().registerReceiver(broadcastReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
+
+    IntentFilter foundFilter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+    getActivity().registerReceiver(broadcastReceiver, foundFilter);
+
+    IntentFilter finishedFilter = new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
+    getActivity().registerReceiver(broadcastReceiver, finishedFilter);
   }
 
   @Override
@@ -121,6 +121,35 @@ public class DiscoveryFragment extends Fragment {
     super.onPause();
     getActivity().unregisterReceiver(broadcastReceiver);
   }
+
+  /**
+   * row selection
+   */
+  public void onListItemClick(ListView listView, View view, int position, long id) {
+    Log.d(LOG_TAG, "click:" + position + ":" + id);
+
+    BluetoothDevice bluetoothDevice = discoveryArrayAdapter.getItem(position);
+  }
+
+  /**
+   * menu for long press
+   */
+  @Override
+  public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
+    super.onCreateContextMenu(menu, view, menuInfo);
+    MenuInflater inflater = getActivity().getMenuInflater();
+    inflater.inflate(R.menu.discovery, menu);
+  }
+
+  @Override
+  public boolean onContextItemSelected(MenuItem item) {
+    AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+    System.out.println("hit:" + item);
+//    LogFacade.entry(LOG_TAG, "on context item select:" + item + ":" + info.id + ":" + customArrayAdapter.getItem(info.position));
+
+    return super.onContextItemSelected(item);
+  }
+
 }
 /*
  * Copyright 2014 Digital Burro, INC
