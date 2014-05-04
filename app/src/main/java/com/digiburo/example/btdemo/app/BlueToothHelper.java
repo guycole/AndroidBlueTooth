@@ -15,6 +15,10 @@ public class BlueToothHelper {
 
   private final String LOG_TAG = getClass().getName();
 
+  /**
+   *
+   * @return
+   */
   public BluetoothAdapter getAdapter() {
     BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
     if (adapter == null) {
@@ -24,6 +28,11 @@ public class BlueToothHelper {
     return adapter;
   }
 
+  /**
+   *
+   * @param bluetoothAdapter
+   * @return true success
+   */
   public boolean setup(BluetoothAdapter bluetoothAdapter) {
     if (bluetoothAdapter == null) {
       Log.d(LOG_TAG, "null bluetooth adapter");
@@ -31,32 +40,14 @@ public class BlueToothHelper {
     }
 
     if (bluetoothAdapter.isEnabled()) {
-      System.out.println("ghghgghghghghghg");
-      System.out.println("address:" + bluetoothAdapter.getAddress());
-      System.out.println("name:" + bluetoothAdapter.getName());
+      Log.d(LOG_TAG, "address:" + bluetoothAdapter.getAddress());
+      Log.d(LOG_TAG, "name:" + bluetoothAdapter.getName());
 
       Set<BluetoothDevice> bonded = bluetoothAdapter.getBondedDevices();
       System.out.println("bonded:" + bonded.size());
-
     }
 
     return(false);
-
-
-  }
-
-  public void scan() {
-    BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    if (bluetoothAdapter == null) {
-      System.out.println("null bt adapter");
-    }
-
-    if (bluetoothAdapter.isEnabled()) {
-      System.out.println("bluetooth enabled");
-      bluetoothAdapter.startDiscovery();
-    } else {
-      System.out.println("bluetooth disabled");
-    }
   }
 }
 /*

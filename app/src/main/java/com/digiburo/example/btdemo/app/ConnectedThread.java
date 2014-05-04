@@ -10,10 +10,10 @@ import java.io.OutputStream;
 /**
  * @author gsc
  */
-public class ConnectedThread extends Thread {
+public class ConnectedThread extends AbstractParent implements Runnable {
   private final String LOG_TAG = getClass().getName();
 
-  private final BluetoothSocket socket;
+  private final BluetoothSocket socket = null;
   private final InputStream inStream;
   private final OutputStream outStream;
 
@@ -49,7 +49,7 @@ public class ConnectedThread extends Thread {
         Log.e(LOG_TAG, "disconnected", e);
         connectionLost();
         // Start the service over to restart listening mode
-        EchoService.this.start();
+        //EchoService.this.start();
         break;
       }
     }

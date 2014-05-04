@@ -1,15 +1,10 @@
 package com.digiburo.example.btdemo.app;
 
+import java.util.UUID;
+
 /**
  * @author gsc
  */
-
-
-/* 
- * Copyright 2014 Digital Burro, INC
- * Created 4/30/14 by gsc
- */
-
 public class Constant {
 
   // Constants that indicate the current connection state
@@ -18,4 +13,15 @@ public class Constant {
   public static final int STATE_CONNECTING = 2; // now initiating an outgoing connection
   public static final int STATE_CONNECTED = 3;  // now connected to a remote device
 
+  // Name for the SDP record when creating server socket
+  public static final String NAME_SECURE = "SecureEchoService";
+  public static final String NAME_INSECURE = "InsecureEchoService";
+
+  // Unique UUID for this application
+  public static final UUID MY_UUID_SECURE = UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
+  public static final UUID MY_UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
 }
+/*
+ * Copyright 2014 Digital Burro, INC
+ * Created on April 30, 2014 by gsc
+ */

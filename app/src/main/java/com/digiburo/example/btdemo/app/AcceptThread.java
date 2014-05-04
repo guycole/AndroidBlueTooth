@@ -13,62 +13,66 @@ import java.util.UUID;
  * @author gsc
  */
 public class AcceptThread extends AbstractParent implements Runnable {
-//  public class AcceptThread extends Thread {
-
   private final String LOG_TAG = getClass().getName();
 
-  private final BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+  private final BluetoothAdapter adapter;
   private final BluetoothServerSocket serverSocket;
-  private String socketType;
-  private int state;
+  private final String socketType;
 
-  public AcceptThread(boolean secure, String name, UUID uuid) {
-    BluetoothServerSocket bluetoothServerSocket = null;
+  /**
+   *
+   * @param secure
+   * @param name
+   * @param uuid
+   */
+  public AcceptThread(BluetoothAdapter bluetoothAdapter, boolean secure, String name, UUID uuid) {
+    adapter = bluetoothAdapter;
     socketType = secure ? "Secure":"Insecure";
+    BluetoothServerSocket tempSocket = null;
 
     try {
       if (secure) {
-        bluetoothServerSocket = adapter.listenUsingRfcommWithServiceRecord(name, uuid);
+        tempSocket = adapter.listenUsingRfcommWithServiceRecord(name, uuid);
       } else {
-        bluetoothServerSocket = adapter.listenUsingInsecureRfcommWithServiceRecord(name, uuid);
+        tempSocket = adapter.listenUsingInsecureRfcommWithServiceRecord(name, uuid);
       }
     } catch(IOException exception) {
-      Log.e(LOG_TAG, "Socket Type: " + socketType + "listen() failed", exception);
+      Log.e(LOG_TAG, "socketType:" + socketType + ":listen() failed", exception);
     }
 
-    serverSocket = bluetoothServerSocket;
+    serverSocket = tempSocket;
   }
 
+  /**
+   *
+   */
   public void run() {
-    Log.d(LOG_TAG, "Socket Type: " + socketType + "BEGIN mAcceptThread" + this);
-//    setName("AcceptThread:" + socketType);
+    Log.d(LOG_TAG, "accept socketType:" + socketType + ":run()");
 
     BluetoothSocket socket = null;
 
-    while(state != Constant.STATE_CONNECTED) {
+    while(Personality.state != Constant.STATE_CONNECTED) {
       try {
-        // This is a blocking call and will only return on a successful connection or an exception
         socket = serverSocket.accept();
       } catch(IOException exception) {
-        Log.e(LOG_TAG, "Socket Type: " + socketType + "accept() failed", exception);
+        Log.e(LOG_TAG, "socketType:" + socketType + ":accept() failed", exception);
         break;
       }
 
-      Log.d(LOG_TAG, "connection accepted");
+      Log.d(LOG_TAG, "connection accepted:" + Personality.state);
       if (socket != null) {
         synchronized(AcceptThread.this) {
-          switch (state) {
+          switch (Personality.state) {
             case Constant.STATE_LISTEN:
             case Constant.STATE_CONNECTING:
               connected(socket, socket.getRemoteDevice(), socketType);
               break;
             case Constant.STATE_NONE:
             case Constant.STATE_CONNECTED:
-              // Either not ready or already connected. Terminate new socket.
               try {
                 socket.close();
               } catch(IOException exception) {
-                Log.e(LOG_TAG, "Could not close unwanted socket", exception);
+                Log.e(LOG_TAG, "close failure socketType:" + socketType, exception);
               }
               break;
           }
@@ -76,16 +80,16 @@ public class AcceptThread extends AbstractParent implements Runnable {
       }
     }
 
-    Log.i(LOG_TAG, "END mAcceptThread, socket Type: " + socketType);
+    Log.d(LOG_TAG, "run() exit");
   }
 
   public void cancel() {
-    Log.d(LOG_TAG, "Socket Type" + socketType + "cancel " + this);
+    Log.d(LOG_TAG, "socketType:" + socketType + ":cancel:" + this);
 
     try {
       serverSocket.close();
-    } catch (IOException e) {
-      Log.e(LOG_TAG, "Socket Type" + socketType + "close() of server failed", e);
+    } catch (IOException exception) {
+      Log.e(LOG_TAG, "close failure socketType:" + socketType, exception);
     }
   }
 }

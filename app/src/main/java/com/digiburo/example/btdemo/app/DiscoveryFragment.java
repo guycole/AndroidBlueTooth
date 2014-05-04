@@ -144,12 +144,21 @@ public class DiscoveryFragment extends ListFragment {
   @Override
   public boolean onContextItemSelected(MenuItem item) {
     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-    System.out.println("hit:" + item);
-//    LogFacade.entry(LOG_TAG, "on context item select:" + item + ":" + info.id + ":" + customArrayAdapter.getItem(info.position));
+    Log.d(LOG_TAG, "on context item select:" + item + ":" + info.id + ":" + discoveryArrayAdapter.getItem(info.position));
+    BluetoothDevice device = discoveryArrayAdapter.getItem(info.position);
+
+    switch(item.getItemId()) {
+      case R.id.actionPair:
+        EchoService echoService = new EchoService();
+        echoService.start();
+        echoService.connect(device, false);
+        return(true);
+    }
+
+    Log.e(LOG_TAG, "unknown menu option");
 
     return super.onContextItemSelected(item);
   }
-
 }
 /*
  * Copyright 2014 Digital Burro, INC
