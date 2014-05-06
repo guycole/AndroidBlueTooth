@@ -23,14 +23,18 @@ public class TabHelper implements ActionBar.TabListener {
   private String currentFragmentTag = ConfigureFragment.FRAGMENT_TAG;
 
   //
+  private ActionBar.Tab chatTab;
   private ActionBar.Tab configureTab;
   private ActionBar.Tab discoveryTab;
   private ActionBar.Tab echoTab;
+  private ActionBar.Tab timeTab;
 
   //
+  private final ChatFragment chatFragment;
   private final ConfigureFragment configureFragment;
   private final DiscoveryFragment discoveryFragment;
   private final EchoFragment echoFragment;
+  private final TimeFragment timeFragment;
 
   /**
    * ctor
@@ -39,9 +43,11 @@ public class TabHelper implements ActionBar.TabListener {
   public TabHelper(MainActivity activity) {
     mainActivity = activity;
 
+    chatFragment = (ChatFragment) Fragment.instantiate(mainActivity, ChatFragment.class.getName());
     configureFragment = (ConfigureFragment) Fragment.instantiate(mainActivity, ConfigureFragment.class.getName());
     discoveryFragment = (DiscoveryFragment) Fragment.instantiate(mainActivity, DiscoveryFragment.class.getName());
     echoFragment = (EchoFragment) Fragment.instantiate(mainActivity, EchoFragment.class.getName());
+    timeFragment = (TimeFragment) Fragment.instantiate(mainActivity, TimeFragment.class.getName());
   }
 
   /**
@@ -53,12 +59,16 @@ public class TabHelper implements ActionBar.TabListener {
   public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     Log.d(LOG_TAG, "tabSelected:" + tab.getTag());
 
-    if (tab.getTag().equals(ConfigureFragment.FRAGMENT_TAG)) {
+    if (tab.getTag().equals(ChatFragment.FRAGMENT_TAG)) {
+      fragmentTransaction.add(R.id.layoutFragment01, chatFragment, ChatFragment.FRAGMENT_TAG);
+    } else if (tab.getTag().equals(ConfigureFragment.FRAGMENT_TAG)) {
       fragmentTransaction.add(R.id.layoutFragment01, configureFragment, ConfigureFragment.FRAGMENT_TAG);
     } else if (tab.getTag().equals(DiscoveryFragment.FRAGMENT_TAG)) {
       fragmentTransaction.add(R.id.layoutFragment01, discoveryFragment, DiscoveryFragment.FRAGMENT_TAG);
     } else if (tab.getTag().equals(EchoFragment.FRAGMENT_TAG)) {
       fragmentTransaction.add(R.id.layoutFragment01, echoFragment, EchoFragment.FRAGMENT_TAG);
+    } else if (tab.getTag().equals(TimeFragment.FRAGMENT_TAG)) {
+      fragmentTransaction.add(R.id.layoutFragment01, timeFragment, TimeFragment.FRAGMENT_TAG);
     } else {
       throw new IllegalArgumentException("unknown tab:" + tab.getTag());
     }
@@ -75,12 +85,16 @@ public class TabHelper implements ActionBar.TabListener {
   public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     Log.d(LOG_TAG, "tabUnSelected:" + tab.getTag());
 
-    if (tab.getTag().equals(ConfigureFragment.FRAGMENT_TAG)) {
+    if (tab.getTag().equals(ChatFragment.FRAGMENT_TAG)) {
+      fragmentTransaction.remove(chatFragment);
+    } else if (tab.getTag().equals(ConfigureFragment.FRAGMENT_TAG)) {
       fragmentTransaction.remove(configureFragment);
     } else if (tab.getTag().equals(DiscoveryFragment.FRAGMENT_TAG)) {
       fragmentTransaction.remove(discoveryFragment);
     } else if (tab.getTag().equals(EchoFragment.FRAGMENT_TAG)) {
       fragmentTransaction.remove(echoFragment);
+    } else if (tab.getTag().equals(TimeFragment.FRAGMENT_TAG)) {
+      fragmentTransaction.remove(timeFragment);
     } else {
       throw new IllegalArgumentException("unknown tab:" + tab.getTag());
     }
@@ -93,11 +107,15 @@ public class TabHelper implements ActionBar.TabListener {
    */
   @Override
   public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    if (tab.getTag().equals(ConfigureFragment.FRAGMENT_TAG)) {
+    if (tab.getTag().equals(ChatFragment.FRAGMENT_TAG)) {
+      //empty
+    } else if (tab.getTag().equals(ConfigureFragment.FRAGMENT_TAG)) {
       //empty
     } else if (tab.getTag().equals(DiscoveryFragment.FRAGMENT_TAG)) {
       //empty
     } else if (tab.getTag().equals(EchoFragment.FRAGMENT_TAG)) {
+      //empty
+    } else if (tab.getTag().equals(TimeFragment.FRAGMENT_TAG)) {
       //empty
     } else {
       throw new IllegalArgumentException("unknown tab:" + tab.getTag());
@@ -112,25 +130,35 @@ public class TabHelper implements ActionBar.TabListener {
 
     ActionBar actionBar = mainActivity.getSupportActionBar();
 
+    chatTab = actionBar.newTab();
     configureTab = actionBar.newTab();
     discoveryTab = actionBar.newTab();
     echoTab = actionBar.newTab();
+    timeTab = actionBar.newTab();
 
+    chatTab.setTabListener(this);
     configureTab.setTabListener(this);
     discoveryTab.setTabListener(this);
     echoTab.setTabListener(this);
+    timeTab.setTabListener(this);
 
+    chatTab.setTag(ChatFragment.FRAGMENT_TAG);
     configureTab.setTag(ConfigureFragment.FRAGMENT_TAG);
     discoveryTab.setTag(DiscoveryFragment.FRAGMENT_TAG);
     echoTab.setTag(EchoFragment.FRAGMENT_TAG);
+    timeTab.setTag(TimeFragment.FRAGMENT_TAG);
 
+    chatTab.setText(R.string.action_bar_tab_chat);
     configureTab.setText(R.string.action_bar_tab_configuration);
     discoveryTab.setText(R.string.action_bar_tab_discovery);
     echoTab.setText(R.string.action_bar_tab_echo);
+    timeTab.setText(R.string.action_bar_tab_time);
 
     actionBar.addTab(configureTab);
     actionBar.addTab(discoveryTab);
+    actionBar.addTab(timeTab);
     actionBar.addTab(echoTab);
+    actionBar.addTab(chatTab);
   }
 
   /**

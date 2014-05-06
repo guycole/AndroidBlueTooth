@@ -19,7 +19,8 @@ public class ConnectedThread extends AbstractParent implements Runnable {
 
   public ConnectedThread(BluetoothSocket socket, String socketType) {
     Log.d(LOG_TAG, "create ConnectedThread: " + socketType);
-    socket = socket;
+
+//    this.socket = socket;
     InputStream tmpIn = null;
     OutputStream tmpOut = null;
 
@@ -27,8 +28,8 @@ public class ConnectedThread extends AbstractParent implements Runnable {
     try {
       tmpIn = socket.getInputStream();
       tmpOut = socket.getOutputStream();
-    } catch (IOException e) {
-      Log.e(LOG_TAG, "temp sockets not created", e);
+    } catch (IOException exception) {
+      Log.e(LOG_TAG, "temp sockets not created", exception);
     }
 
     inStream = tmpIn;
@@ -36,7 +37,7 @@ public class ConnectedThread extends AbstractParent implements Runnable {
   }
 
   public void run() {
-    Log.i(LOG_TAG, "BEGIN mConnectedThread");
+    Log.d(LOG_TAG, "connected run()");
     byte[] buffer = new byte[1024];
     int bytes;
 
@@ -45,8 +46,12 @@ public class ConnectedThread extends AbstractParent implements Runnable {
       try {
         // Read from the InputStream
         bytes = inStream.read(buffer);
-      } catch (IOException e) {
-        Log.e(LOG_TAG, "disconnected", e);
+        Log.d(LOG_TAG, "read:" + bytes + ":" + new String(buffer, 0, bytes));
+
+        String response = "response";
+        write(response.getBytes());
+      } catch (IOException exception) {
+        Log.e(LOG_TAG, "xxx xxx disconnected xxx xxx", exception);
         connectionLost();
         // Start the service over to restart listening mode
         //EchoService.this.start();
@@ -60,6 +65,7 @@ public class ConnectedThread extends AbstractParent implements Runnable {
    * @param buffer  The bytes to write
    */
   public void write(byte[] buffer) {
+    Log.d(LOG_TAG, "write write write");
     try {
       outStream.write(buffer);
     } catch (IOException e) {
@@ -68,6 +74,7 @@ public class ConnectedThread extends AbstractParent implements Runnable {
   }
 
   public void cancel() {
+    Log.d(LOG_TAG, "cancel cancel cancel");
     try {
       socket.close();
     } catch (IOException e) {

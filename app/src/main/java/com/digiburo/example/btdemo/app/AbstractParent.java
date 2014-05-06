@@ -4,6 +4,8 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
+import java.util.UUID;
+
 /**
  * @author gsc
  */
@@ -42,13 +44,31 @@ public abstract class AbstractParent {
     */
   }
 
+  synchronized void connect(BluetoothDevice device, boolean secure) {
+    Log.d(LOG_TAG, "connect to: " + device);
+
+    // Cancel any thread attempting to make a connection
+    if (Personality.getState() == Constant.STATE_CONNECTING) {
+      if (Personality.connectThread != null) {
+        Utility.clearConnectThread();
+      }
+    }
+
+    // Cancel any thread currently running a connection
+    if (Personality.connectedThread != null) {
+      Utility.clearConnectedThread();
+    }
+
+    Utility.startConnectThread(device, secure);
+
+    Personality.setState(Constant.STATE_CONNECTING);
+  }
 
   /**
    * Start the ConnectedThread to begin managing a Bluetooth connection
    * @param socket  The BluetoothSocket on which the connection was made
-   * @param device  The BluetoothDevice that has been connected
    */
-  synchronized void connected(BluetoothSocket socket, BluetoothDevice device, final String socketType) {
+  synchronized void connected(BluetoothSocket socket, final String socketType) {
     Log.d(LOG_TAG, "connected socketType:" + socketType);
 
     Utility.clearConnectThread();
@@ -56,9 +76,11 @@ public abstract class AbstractParent {
     Utility.clearAcceptThread(true);
     Utility.clearAcceptThread(false);
 
-    Utility.startConnectThread(device, false);
+//    Utility.startConnectedThread(socket, socketType);
 
-    Personality.state = Constant.STATE_CONNECTED;
+    Utility.startTimeServerThread(socket, socketType);
+
+    Personality.setState(Constant.STATE_CONNECTED);
   }
 }
 /*

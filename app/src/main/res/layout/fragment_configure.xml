@@ -3,8 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:orientation="vertical"
   android:layout_width="match_parent"
-  android:layout_height="match_parent"
-    >
+  android:layout_height="match_parent">
 
   <Button
     android:id="@+id/buttonEnable"
@@ -13,10 +12,16 @@
     android:text="@string/button_enable"/>
 
   <Button
-      android:id="@+id/buttonDiscoverable"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/button_discoverable"/>
+    android:id="@+id/buttonDiscoverable"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/button_discoverable"/>
+
+  <Button
+    android:id="@+id/buttonTimeServer"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/button_time_server_start"/>
 
   <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"

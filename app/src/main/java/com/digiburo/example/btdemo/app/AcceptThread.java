@@ -21,6 +21,7 @@ public class AcceptThread extends AbstractParent implements Runnable {
 
   /**
    *
+   * @param bluetoothAdapter
    * @param secure
    * @param name
    * @param uuid
@@ -37,7 +38,7 @@ public class AcceptThread extends AbstractParent implements Runnable {
         tempSocket = adapter.listenUsingInsecureRfcommWithServiceRecord(name, uuid);
       }
     } catch(IOException exception) {
-      Log.e(LOG_TAG, "socketType:" + socketType + ":listen() failed", exception);
+      Log.e(LOG_TAG, "accept:" + socketType + ":listen failure", exception);
     }
 
     serverSocket = tempSocket;
@@ -51,27 +52,34 @@ public class AcceptThread extends AbstractParent implements Runnable {
 
     BluetoothSocket socket = null;
 
-    while(Personality.state != Constant.STATE_CONNECTED) {
+    while(Personality.getState() != Constant.STATE_CONNECTED) {
+      Log.d(LOG_TAG, "accept top of loop:" + Personality.getState());
+
       try {
         socket = serverSocket.accept();
       } catch(IOException exception) {
-        Log.e(LOG_TAG, "socketType:" + socketType + ":accept() failed", exception);
+        Log.e(LOG_TAG, "socketType:" + socketType + ":accept failure", exception);
         break;
       }
 
-      Log.d(LOG_TAG, "connection accepted:" + Personality.state);
+      Log.d(LOG_TAG, "connection accepted:" + Personality.getState());
+
       if (socket != null) {
         synchronized(AcceptThread.this) {
-          switch (Personality.state) {
+          switch (Personality.getState()) {
             case Constant.STATE_LISTEN:
+              Log.d(LOG_TAG, "listen");
             case Constant.STATE_CONNECTING:
-              connected(socket, socket.getRemoteDevice(), socketType);
+              Log.d(LOG_TAG, "connecting");
+              connected(socket, socketType);
               break;
             case Constant.STATE_NONE:
+              Log.d(LOG_TAG, "none");
             case Constant.STATE_CONNECTED:
+              Log.d(LOG_TAG, "connected");
               try {
                 socket.close();
-              } catch(IOException exception) {
+              } catch (IOException exception) {
                 Log.e(LOG_TAG, "close failure socketType:" + socketType, exception);
               }
               break;
@@ -83,6 +91,9 @@ public class AcceptThread extends AbstractParent implements Runnable {
     Log.d(LOG_TAG, "run() exit");
   }
 
+  /**
+   *
+   */
   public void cancel() {
     Log.d(LOG_TAG, "socketType:" + socketType + ":cancel:" + this);
 

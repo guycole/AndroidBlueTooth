@@ -6,14 +6,19 @@
   <string name="action_settings">Settings</string>
 
   <string name="action_bar_tab_configuration">Conf</string>
-  <string name="action_bar_tab_discovery">Discovery</string>
+  <string name="action_bar_tab_discovery">Disc</string>
+  <string name="action_bar_tab_chat">Chat</string>
   <string name="action_bar_tab_echo">Echo</string>
+  <string name="action_bar_tab_time">Time</string>
 
   <string name="button_discoverable">Discoverable</string>
   <string name="button_discovery">Discovery</string>
   <string name="button_enable">Enable BlueTooth</string>
+  <string name="button_time_server_start">Start Time Server</string>
+  <string name="button_time_server_stop">Stop Time Server</string>
 
   <string name="discovery_menu_pair">Pair</string>
+  <string name="discovery_menu_time">Time</string>
 
   <string name="label_adapter_address">Adapter Address:</string>
   <string name="label_adapter_name">Adapter Name:</string>

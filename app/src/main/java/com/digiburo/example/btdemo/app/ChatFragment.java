@@ -16,9 +16,9 @@ import com.digiburo.example.btdemo.R;
 /**
  * Display current bluetooth configuration
  */
-public class ConfigureFragment extends Fragment {
+public class ChatFragment extends Fragment {
 
-  public static final String FRAGMENT_TAG = "TAG_CONFIGURE";
+  public static final String FRAGMENT_TAG = "TAG_CHAT";
 
   private FragmentListener fragmentListener;
 
@@ -29,15 +29,12 @@ public class ConfigureFragment extends Fragment {
   private TextView scan;
   private TextView state;
 
-  private boolean runFlag = false;
-  private Button timeServerButton;
-
   private final String LOG_TAG = getClass().getName();
 
   /**
    * mandatory empty ctor
    */
-  public ConfigureFragment() {
+  public ChatFragment() {
     //empty
   }
 
@@ -57,6 +54,9 @@ public class ConfigureFragment extends Fragment {
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
+
+//    EchoService echoService = new EchoService();
+//    echoService.start();
 
     Button discoverableButton = (Button) getActivity().findViewById(R.id.buttonDiscoverable);
     discoverableButton.setOnClickListener(new View.OnClickListener() {
@@ -81,26 +81,6 @@ public class ConfigureFragment extends Fragment {
       @Override
       public void onClick(View view) {
       fragmentListener.requestBlueToothDialog();
-      }
-    });
-
-    timeServerButton = (Button) getActivity().findViewById(R.id.buttonTimeServer);
-    timeServerButton.setOnClickListener(new View.OnClickListener() {
-
-      /**
-       * invoke scan function
-       * @param view
-       */
-      @Override
-      public void onClick(View view) {
-        runFlag = !runFlag;
-        if (runFlag) {
-          timeServerButton.setText(R.string.button_time_server_stop);
-          fragmentListener.startTimeServer();
-        } else {
-          timeServerButton.setText(R.string.button_time_server_start);
-          fragmentListener.stopTimeServer();
-        }
       }
     });
 

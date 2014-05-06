@@ -1,6 +1,8 @@
 package com.digiburo.example.btdemo.app;
 
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
+import android.util.Log;
 
 /**
  * @author gsc
@@ -8,6 +10,8 @@ import android.bluetooth.BluetoothDevice;
 public class Utility {
 
   public static void clearAcceptThread(boolean secure) {
+    Log.d("utility", "clearAcceptThread:" + secure);
+
     if (secure) {
       AcceptThread secureAcceptThread = Personality.secureAcceptThread;
 
@@ -16,18 +20,19 @@ public class Utility {
         Personality.secureAcceptThread = null;
       }
     } else {
-      AcceptThread acceptThread = Personality.acceptThread;
+      AcceptThread acceptThread = Personality.insecureAcceptThread;
 
       if (acceptThread != null) {
         acceptThread.cancel();
-        Personality.acceptThread = null;
+        Personality.insecureAcceptThread = null;
       }
     }
   }
 
   public static void clearConnectThread() {
-    ConnectThread connectThread = Personality.connectThread;
+    Log.d("utility", "clearConnectThread");
 
+    ConnectThread connectThread = Personality.connectThread;
     if (connectThread != null) {
       connectThread.cancel();
       Personality.connectThread = null;
@@ -35,8 +40,9 @@ public class Utility {
   }
 
   public static void clearConnectedThread() {
-    ConnectedThread connectedThread = Personality.connectedThread;
+    Log.d("utility", "clearConnectedThread");
 
+    ConnectedThread connectedThread = Personality.connectedThread;
     if (connectedThread != null) {
       connectedThread.cancel();
       Personality.connectedThread = null;
@@ -44,42 +50,67 @@ public class Utility {
   }
 
   public static void startAcceptThread(boolean secure) {
+    Log.d("utility", "startAcceptThread:" + secure);
+
     AcceptThread acceptThread;
-    AcceptThread temp;
-    String name;
 
     if (secure) {
       acceptThread = Personality.secureAcceptThread;
-      temp = new AcceptThread(Personality.blueToothAdapter, true, Constant.NAME_SECURE, Constant.MY_UUID_SECURE);
-      name = "AcceptThread:secure";
-    } else {
-      acceptThread = Personality.acceptThread;
-      temp = new AcceptThread(Personality.blueToothAdapter, false, Constant.NAME_INSECURE, Constant.MY_UUID_INSECURE);
-      name = "AcceptThread:insecure";
-    }
+      if (acceptThread != null) {
+        return;
+      }
 
-    if (acceptThread != null) {
-      return;
-    }
+      acceptThread = new AcceptThread(Personality.blueToothAdapter, true, Constant.NAME_SECURE, Constant.MY_UUID_SECURE);
 
-    Thread thread = new Thread(temp);
-    thread.setName(name);
-    thread.start();
+      Thread thread = new Thread(acceptThread);
+      thread.setName("AcceptThread:secure");
+      thread.start();
 
-    if (secure) {
       Personality.secureAcceptThread = acceptThread;
     } else {
-      Personality.acceptThread = acceptThread;
+      acceptThread = Personality.insecureAcceptThread;
+      if (acceptThread != null) {
+        return;
+      }
+
+      acceptThread = new AcceptThread(Personality.blueToothAdapter, false, Constant.NAME_INSECURE, Constant.MY_UUID_INSECURE);
+
+      Thread thread = new Thread(acceptThread);
+      thread.setName("AcceptThread:insecure");
+      thread.start();
+
+      Personality.insecureAcceptThread = acceptThread;
     }
   }
 
   public static void startConnectThread(BluetoothDevice device, boolean secure) {
+    Log.d("utility", "startConnectThread:" + secure);
     ConnectThread connectThread = new ConnectThread(device, secure, Constant.MY_UUID_SECURE, Constant.MY_UUID_INSECURE);
     Thread thread = new Thread(connectThread);
-    thread.setName("ConnectThread");
+    thread.setName("ConnectThread:" + secure);
     thread.start();
 
     Personality.connectThread = connectThread;
+  }
+
+  public static void startConnectedThread(BluetoothSocket socket, String socketType) {
+    Log.d("utility", "startConnectedThread");
+    ConnectedThread connectedThread = new ConnectedThread(socket, socketType);
+    Thread thread = new Thread(connectedThread);
+    thread.setName("ConnectedThread:" + socketType);
+    thread.start();
+
+    Personality.connectedThread = connectedThread;
+  }
+
+  public static void startTimeServerThread(BluetoothSocket socket, String socketType) {
+    Log.d("utility", "startTimeServerThread");
+    TimeServerThread timeServerThread = new TimeServerThread(socket, socketType);
+    Thread thread = new Thread(timeServerThread);
+    thread.setName("TimeServerThread:" + socketType);
+    thread.start();
+
+    Personality.timeServerThread = timeServerThread;
   }
 }
 /*

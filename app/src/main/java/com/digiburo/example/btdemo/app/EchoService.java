@@ -14,37 +14,42 @@ import java.util.UUID;
 public class EchoService {
   private final String LOG_TAG = getClass().getName();
 
-  //
-  //private final BluetoothAdapter adapter;
-
   public EchoService() {
     Personality.blueToothAdapter = BluetoothAdapter.getDefaultAdapter();
-    Personality.state = Constant.STATE_NONE;
+    Personality.setState(Constant.STATE_NONE);
   }
 
   public synchronized void start() {
     Log.d(LOG_TAG, "start");
 
+    System.out.println("ghgghghghghghghghghghghghghghg");
+    System.out.println("ghgghghghghghghghghghghghghghg");
+    System.out.println("ghgghghghghghghghghghghghghghg");
+    System.out.println("ghgghghghghghghghghghghghghghg");
+
     Utility.clearConnectThread();
     Utility.clearConnectedThread();
 
-    Personality.state = Constant.STATE_LISTEN;
+    Personality.setState(Constant.STATE_LISTEN);
 
     Utility.startAcceptThread(true);
     Utility.startAcceptThread(false);
   }
 
   public synchronized void connect(BluetoothDevice device, boolean secure) {
-    Log.d(LOG_TAG, "connect to: " + device);
+    Log.d(LOG_TAG, "connect: " + device);
 
+    /*
     if (Personality.state == Constant.STATE_CONNECTING) {
       Utility.clearConnectThread();
     }
 
     Utility.clearConnectedThread();
 
-//    Utility.startConnectThread(device, secure);
+    Utility.startConnectThread(device, secure);
+
     Personality.state = Constant.STATE_CONNECTING;
+    */
   }
 
   /*
@@ -94,8 +99,9 @@ public class EchoService {
     Utility.clearAcceptThread(true);
     Utility.clearAcceptThread(false);
 
-    Personality.state = Constant.STATE_NONE;
+    Personality.setState(Constant.STATE_NONE);
   }
+
 
   public void write(byte[] out) {
     ConnectedThread producer = null;

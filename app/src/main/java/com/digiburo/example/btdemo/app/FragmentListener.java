@@ -14,6 +14,16 @@ public interface FragmentListener {
    * make this platform discoverable
    */
   void makeDiscoverable();
+
+  /**
+   * start time server
+   */
+  void startTimeServer();
+
+  /**
+   * stop time server
+   */
+  void stopTimeServer();
 }
 /*
  * Copyright 2014 Digital Burro, INC

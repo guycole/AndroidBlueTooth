@@ -15,6 +15,8 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
 
   private TabHelper tabHelper;
 
+  private final TimeService timeService = new TimeService();
+
   private final String LOG_TAG = getClass().getName();
 
   /**
@@ -36,12 +38,30 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
    */
   public void makeDiscoverable() {
     Log.d(LOG_TAG, "make discoverable");
-
     Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
     intent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 120);
     startActivity(intent);
   }
 
+  /**
+   * start time server
+   */
+  public void startTimeServer() {
+    Log.d(LOG_TAG, "start time server");
+    timeService.start();
+  }
+
+  public void stopTimeServer() {
+    Log.d(LOG_TAG, "stop time server");
+    timeService.stop();
+  }
+
+  /**
+   *
+   * @param requestCode
+   * @param resultCode
+   * @param intent
+   */
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
