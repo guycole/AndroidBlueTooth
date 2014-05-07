@@ -29,7 +29,10 @@ public class ConfigureFragment extends Fragment {
   private TextView scan;
   private TextView state;
 
-  private boolean runFlag = false;
+  private boolean chatRunFlag = false;
+  private Button chatServerButton;
+
+  private boolean timeRunFlag = false;
   private Button timeServerButton;
 
   private final String LOG_TAG = getClass().getName();
@@ -84,6 +87,26 @@ public class ConfigureFragment extends Fragment {
       }
     });
 
+    chatServerButton = (Button) getActivity().findViewById(R.id.buttonChatServer);
+    chatServerButton.setOnClickListener(new View.OnClickListener() {
+
+      /**
+       * invoke scan function
+       * @param view
+       */
+      @Override
+      public void onClick(View view) {
+        chatRunFlag = !chatRunFlag;
+        if (chatRunFlag) {
+          chatServerButton.setText(R.string.button_chat_server_stop);
+          fragmentListener.startChatServer();
+        } else {
+          chatServerButton.setText(R.string.button_chat_server_start);
+          fragmentListener.stopChatServer();
+        }
+      }
+    });
+
     timeServerButton = (Button) getActivity().findViewById(R.id.buttonTimeServer);
     timeServerButton.setOnClickListener(new View.OnClickListener() {
 
@@ -93,8 +116,8 @@ public class ConfigureFragment extends Fragment {
        */
       @Override
       public void onClick(View view) {
-        runFlag = !runFlag;
-        if (runFlag) {
+        timeRunFlag = !timeRunFlag;
+        if (timeRunFlag) {
           timeServerButton.setText(R.string.button_time_server_stop);
           fragmentListener.startTimeServer();
         } else {

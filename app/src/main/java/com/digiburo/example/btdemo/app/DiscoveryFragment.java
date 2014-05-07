@@ -148,10 +148,6 @@ public class DiscoveryFragment extends ListFragment {
     Log.d(LOG_TAG, "on context item select:" + item + ":" + info.id + ":" + discoveryArrayAdapter.getItem(info.position));
     BluetoothDevice device = discoveryArrayAdapter.getItem(info.position);
 
-    device.getAddress();
-    device.getName();
-    device.getType();
-
     BluetoothClass bluetoothClass = device.getBluetoothClass();
     bluetoothClass.getDeviceClass();
     bluetoothClass.getMajorDeviceClass();
@@ -161,18 +157,13 @@ public class DiscoveryFragment extends ListFragment {
     Log.d(LOG_TAG, "major device:" + blueToothHelper.majorDeviceCode(bluetoothClass.getMajorDeviceClass()));
 
     switch(item.getItemId()) {
-      case R.id.actionPair:
+      case R.id.actionChat:
+      // fragmentListener.selectChat();
+        return(true);
       case R.id.actionTime:
-        /*
-        EchoService echoService = new EchoService();
-        echoService.start();
-        echoService.connect(device, false);
-        */
-
         TimeClient timeClient = new TimeClient();
         String timeStamp = timeClient.getRemoteTime(device);
         Toast.makeText(getActivity(), timeStamp, Toast.LENGTH_LONG).show();
-
         return(true);
     }
 

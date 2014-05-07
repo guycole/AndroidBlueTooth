@@ -20,21 +20,21 @@ public class TimeService {
   private final String LOG_TAG = getClass().getName();
 
   public static final String TIME_INSECURE = "InsecureTimeService";
-  public static final UUID UUID_INSECURE = UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
+  public static final UUID UUID_INSECURE = UUID.fromString("4ada7ecd-28e4-4631-9e54-8055cecbf9d0");
 
   private BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+  private BluetoothServerSocket serverSocket = null;
+
   private Thread thread;
   private boolean runFlag;
-  private BluetoothServerSocket serverSocket = null;
 
   public synchronized void start() {
     Log.d(LOG_TAG, "start start start");
+    runFlag = true;
 
     AcceptTimeThread acceptThread = new AcceptTimeThread();
     thread = new Thread(acceptThread);
     thread.start();
-
-    runFlag = true;
   }
 
   public synchronized void stop() {
@@ -62,8 +62,7 @@ public class TimeService {
 
         try {
           serverSocket = bluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(TIME_INSECURE, UUID_INSECURE);
-          socket = serverSocket.accept();  //expire generates exception
-          System.out.println("out out out");
+          socket = serverSocket.accept();
           if (socket != null) {
             serverSocket.close();
 

@@ -11,13 +11,15 @@
   <string name="action_bar_tab_echo">Echo</string>
   <string name="action_bar_tab_time">Time</string>
 
+  <string name="button_chat_server_start">Start Chat Server</string>
+  <string name="button_chat_server_stop">Stop Chat Server</string>
   <string name="button_discoverable">Discoverable</string>
   <string name="button_discovery">Discovery</string>
   <string name="button_enable">Enable BlueTooth</string>
   <string name="button_time_server_start">Start Time Server</string>
   <string name="button_time_server_stop">Stop Time Server</string>
 
-  <string name="discovery_menu_pair">Pair</string>
+  <string name="discovery_menu_chat">Chat</string>
   <string name="discovery_menu_time">Time</string>
 
   <string name="label_adapter_address">Adapter Address:</string>

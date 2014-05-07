@@ -18,6 +18,12 @@
     android:text="@string/button_discoverable"/>
 
   <Button
+    android:id="@+id/buttonChatServer"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/button_chat_server_start"/>
+
+  <Button
     android:id="@+id/buttonTimeServer"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"

@@ -3,8 +3,8 @@
   xmlns:tools="http://schemas.android.com/tools"
   tools:context="com.digiburo.example.btdemo.app.MainActivity" >
 
-  <item android:id="@+id/actionPair"
-        android:title="@string/discovery_menu_pair"
+  <item android:id="@+id/actionChat"
+        android:title="@string/discovery_menu_chat"
         android:orderInCategory="100"
         app:showAsAction="never" />
 

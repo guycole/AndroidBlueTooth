@@ -9,12 +9,15 @@ import android.util.Log;
 
 import com.digiburo.example.btdemo.R;
 
+import java.util.UUID;
+
 public class MainActivity extends ActionBarActivity implements FragmentListener {
 
   public static final int ENABLE_BLUETOOTH_REQUEST = 2718;
 
   private TabHelper tabHelper;
 
+  private final ChatService chatService = new ChatService();
   private final TimeService timeService = new TimeService();
 
   private final String LOG_TAG = getClass().getName();
@@ -44,6 +47,22 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
   }
 
   /**
+   * start chat server
+   */
+  public void startChatServer() {
+    Log.d(LOG_TAG, "start chat server");
+    chatService.start();
+  }
+
+  /**
+   * stop chat server
+   */
+  public void stopChatServer() {
+    Log.d(LOG_TAG, "stop chat server");
+    chatService.stop();
+  }
+
+  /**
    * start time server
    */
   public void startTimeServer() {
@@ -51,6 +70,9 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
     timeService.start();
   }
 
+  /**
+   * stop time server
+   */
   public void stopTimeServer() {
     Log.d(LOG_TAG, "stop time server");
     timeService.stop();

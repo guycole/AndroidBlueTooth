@@ -21,15 +21,11 @@ public class TimeClient {
 
       InputStream inStream = blueToothSocket.getInputStream();
 
-      try {
-        Thread.sleep(1000L);
-      } catch(Exception e) {}
-
       byte[] buffer = new byte[1024];
       int readCount = inStream.read(buffer);
       String timeString = new String(buffer, 0, readCount);
-
       Log.d(LOG_TAG, "read:" + readCount + ":" + timeString);
+
       blueToothSocket.close();
       return(timeString);
     } catch(IOException exception) {

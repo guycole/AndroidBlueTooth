@@ -16,6 +16,16 @@ public interface FragmentListener {
   void makeDiscoverable();
 
   /**
+   * start chat server
+   */
+  void startChatServer();
+
+  /**
+   * stop chat server
+   */
+  void stopChatServer();
+
+  /**
    * start time server
    */
   void startTimeServer();
