@@ -1,5 +1,8 @@
 package com.digiburo.example.btdemo.app;
 
+import android.bluetooth.BluetoothDevice;
+import android.os.Handler;
+
 /**
  * @author gsc
  */
@@ -14,6 +17,18 @@ public interface FragmentListener {
    * make this platform discoverable
    */
   void makeDiscoverable();
+
+  /**
+   * send a chat message to remote device
+   * @param payload
+   */
+  void sendChatMessage(String payload);
+
+  /**
+   * start chat client
+   * @param device
+   */
+  void startChatClient(BluetoothDevice device);
 
   /**
    * start chat server

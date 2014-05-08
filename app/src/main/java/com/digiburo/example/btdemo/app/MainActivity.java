@@ -1,19 +1,23 @@
 package com.digiburo.example.btdemo.app;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.digiburo.example.btdemo.R;
-
-import java.util.UUID;
+import com.digiburo.example.btdemo.app.chat.ChatService;
+import com.digiburo.example.btdemo.app.time.TimeService;
 
 public class MainActivity extends ActionBarActivity implements FragmentListener {
 
   public static final int ENABLE_BLUETOOTH_REQUEST = 2718;
+
+  private BluetoothDevice currentDevice;
 
   private TabHelper tabHelper;
 
@@ -30,9 +34,6 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
     Log.d(LOG_TAG, "request BT dialog");
     Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
     startActivityForResult(intent, ENABLE_BLUETOOTH_REQUEST);
-
-    BlueToothHelper bth = new BlueToothHelper();
-    bth.setup(bth.getAdapter());
   }
 
   /**
@@ -44,6 +45,26 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
     Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
     intent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 120);
     startActivity(intent);
+  }
+
+  /**
+   * send a chat message to remote device
+   * @param payload
+   */
+  public void sendChatMessage(String payload) {
+    Log.d(LOG_TAG, "send chat message:" + payload);
+    chatService.write(payload);
+  }
+
+  /**
+   *
+   * @param device
+   */
+  public void startChatClient(BluetoothDevice device) {
+    Log.d(LOG_TAG, "start chat client");
+    tabHelper.selectChat();
+    currentDevice = device;
+    chatService.connect(device, false);
   }
 
   /**
@@ -94,6 +115,9 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
       Log.d(LOG_TAG, "cancel noted");
       return;
     }
+
+    BlueToothHelper bth = new BlueToothHelper();
+    bth.setup(bth.getAdapter());
 
     //TODO test for result code
 

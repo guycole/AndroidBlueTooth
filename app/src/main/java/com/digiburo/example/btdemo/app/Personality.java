@@ -1,7 +1,12 @@
 package com.digiburo.example.btdemo.app;
 
 import android.bluetooth.BluetoothAdapter;
+import android.os.Handler;
 import android.util.Log;
+
+import com.digiburo.example.btdemo.app.chat.AcceptThread;
+import com.digiburo.example.btdemo.app.chat.ConnectThread;
+import com.digiburo.example.btdemo.app.chat.ConnectedThread;
 
 /**
  * @author gsc
@@ -23,7 +28,8 @@ public class Personality {
   public static AcceptThread insecureAcceptThread;
   public static ConnectThread connectThread;
   public static ConnectedThread connectedThread;
-  public static TimeServerThread timeServerThread;
+
+  public static Handler chatHandler;
 
   private static int state;
 

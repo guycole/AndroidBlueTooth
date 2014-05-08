@@ -1,12 +1,14 @@
-package com.digiburo.example.btdemo.app;
+package com.digiburo.example.btdemo.app.chat;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
+import com.digiburo.example.btdemo.app.Constant;
+import com.digiburo.example.btdemo.app.Personality;
+
 import java.io.IOException;
-import java.util.UUID;
 
 /**
  * Service incoming connections
@@ -26,16 +28,16 @@ public class AcceptThread extends AbstractParent implements Runnable {
    * @param name
    * @param uuid
    */
-  public AcceptThread(BluetoothAdapter bluetoothAdapter, boolean secure, String name, UUID uuid) {
+  public AcceptThread(BluetoothAdapter bluetoothAdapter, boolean secure) {
     adapter = bluetoothAdapter;
     socketType = secure ? "Secure":"Insecure";
     BluetoothServerSocket tempSocket = null;
 
     try {
       if (secure) {
-        tempSocket = adapter.listenUsingRfcommWithServiceRecord(name, uuid);
+        tempSocket = adapter.listenUsingRfcommWithServiceRecord(Constant.NAME_SECURE, Constant.UUID_SECURE);
       } else {
-        tempSocket = adapter.listenUsingInsecureRfcommWithServiceRecord(name, uuid);
+        tempSocket = adapter.listenUsingInsecureRfcommWithServiceRecord(Constant.NAME_INSECURE, Constant.UUID_INSECURE);
       }
     } catch(IOException exception) {
       Log.e(LOG_TAG, "accept:" + socketType + ":listen failure", exception);
@@ -56,6 +58,7 @@ public class AcceptThread extends AbstractParent implements Runnable {
       Log.d(LOG_TAG, "accept top of loop:" + Personality.getState());
 
       try {
+        System.out.println("serverSocket:" + serverSocket);
         socket = serverSocket.accept();
       } catch(IOException exception) {
         Log.e(LOG_TAG, "socketType:" + socketType + ":accept failure", exception);

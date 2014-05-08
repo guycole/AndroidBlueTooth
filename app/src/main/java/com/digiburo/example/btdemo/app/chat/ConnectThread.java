@@ -1,9 +1,11 @@
-package com.digiburo.example.btdemo.app;
+package com.digiburo.example.btdemo.app.chat;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
+
+import com.digiburo.example.btdemo.app.Constant;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -27,7 +29,7 @@ public class ConnectThread extends AbstractParent implements Runnable {
    * @param uuidSecure
    * @param uuidInsecure
    */
-  public ConnectThread(BluetoothDevice device, boolean secure, UUID uuidSecure, UUID uuidInsecure) {
+  public ConnectThread(BluetoothDevice device, boolean secure) {
     this.device = device;
     socketType = secure ? "Secure":"Insecure";
 
@@ -35,9 +37,9 @@ public class ConnectThread extends AbstractParent implements Runnable {
 
     try {
       if (secure) {
-        blueToothSocket = device.createRfcommSocketToServiceRecord(uuidSecure);
+        blueToothSocket = device.createRfcommSocketToServiceRecord(Constant.UUID_SECURE);
       } else {
-        blueToothSocket = device.createInsecureRfcommSocketToServiceRecord(uuidInsecure);
+        blueToothSocket = device.createInsecureRfcommSocketToServiceRecord(Constant.UUID_INSECURE);
       }
     } catch (IOException exception) {
       Log.e(LOG_TAG, "connect: " + socketType + "create failed", exception);
@@ -47,9 +49,13 @@ public class ConnectThread extends AbstractParent implements Runnable {
   }
 
   public void run() {
-    Log.d(LOG_TAG, "connect socketType: " + socketType + ":run()");
+    Log.d(LOG_TAG, "connected run()");
+    Log.d(LOG_TAG, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    Log.d(LOG_TAG, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    Log.d(LOG_TAG, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    Log.d(LOG_TAG, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 
-    // Always cancel discovery because it will slow down a connection
+    // cancel discovery because it will slow down a connection
     adapter.cancelDiscovery();
 
     try {

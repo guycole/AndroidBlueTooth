@@ -1,8 +1,10 @@
-package com.digiburo.example.btdemo.app;
+package com.digiburo.example.btdemo.app.time;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
+
+import com.digiburo.example.btdemo.app.time.TimeService;
 
 import java.io.IOException;
 import java.io.InputStream;

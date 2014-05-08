@@ -1,8 +1,12 @@
-package com.digiburo.example.btdemo.app;
+package com.digiburo.example.btdemo.app.chat;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.os.Handler;
 import android.util.Log;
+
+import com.digiburo.example.btdemo.app.Constant;
+import com.digiburo.example.btdemo.app.Personality;
 
 /**
  * @author gsc
@@ -60,7 +64,7 @@ public class Utility {
         return;
       }
 
-      acceptThread = new AcceptThread(Personality.blueToothAdapter, true, Constant.NAME_SECURE, Constant.MY_UUID_SECURE);
+      acceptThread = new AcceptThread(Personality.blueToothAdapter, true);
 
       Thread thread = new Thread(acceptThread);
       thread.setName("AcceptThread:secure");
@@ -73,7 +77,7 @@ public class Utility {
         return;
       }
 
-      acceptThread = new AcceptThread(Personality.blueToothAdapter, false, Constant.NAME_INSECURE, Constant.MY_UUID_INSECURE);
+      acceptThread = new AcceptThread(Personality.blueToothAdapter, false);
 
       Thread thread = new Thread(acceptThread);
       thread.setName("AcceptThread:insecure");
@@ -85,7 +89,7 @@ public class Utility {
 
   public static void startConnectThread(BluetoothDevice device, boolean secure) {
     Log.d("utility", "startConnectThread:" + secure);
-    ConnectThread connectThread = new ConnectThread(device, secure, Constant.MY_UUID_SECURE, Constant.MY_UUID_INSECURE);
+    ConnectThread connectThread = new ConnectThread(device, secure);
     Thread thread = new Thread(connectThread);
     thread.setName("ConnectThread:" + secure);
     thread.start();
@@ -101,16 +105,6 @@ public class Utility {
     thread.start();
 
     Personality.connectedThread = connectedThread;
-  }
-
-  public static void startTimeServerThread(BluetoothSocket socket, String socketType) {
-    Log.d("utility", "startTimeServerThread");
-    TimeServerThread timeServerThread = new TimeServerThread(socket, socketType);
-    Thread thread = new Thread(timeServerThread);
-    thread.setName("TimeServerThread:" + socketType);
-    thread.start();
-
-    Personality.timeServerThread = timeServerThread;
   }
 }
 /*

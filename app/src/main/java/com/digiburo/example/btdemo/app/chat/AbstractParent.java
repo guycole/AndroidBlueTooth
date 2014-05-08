@@ -1,10 +1,11 @@
-package com.digiburo.example.btdemo.app;
+package com.digiburo.example.btdemo.app.chat;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
-import java.util.UUID;
+import com.digiburo.example.btdemo.app.Constant;
+import com.digiburo.example.btdemo.app.Personality;
 
 /**
  * @author gsc
@@ -76,9 +77,7 @@ public abstract class AbstractParent {
     Utility.clearAcceptThread(true);
     Utility.clearAcceptThread(false);
 
-//    Utility.startConnectedThread(socket, socketType);
-
-    Utility.startTimeServerThread(socket, socketType);
+    Utility.startConnectedThread(socket, socketType);
 
     Personality.setState(Constant.STATE_CONNECTED);
   }

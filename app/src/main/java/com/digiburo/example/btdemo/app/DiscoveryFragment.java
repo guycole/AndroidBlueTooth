@@ -13,7 +13,6 @@ import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +23,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.digiburo.example.btdemo.R;
+import com.digiburo.example.btdemo.app.time.TimeClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +32,7 @@ import java.util.List;
  * List of discovered bluetooth devices
  */
 public class DiscoveryFragment extends ListFragment {
-
-  public static final String FRAGMENT_TAG = "TAG_SCAN";
+  public static final String FRAGMENT_TAG = "TAG_DISCOVERY";
 
   private DiscoveryArrayAdapter discoveryArrayAdapter;
 
@@ -158,7 +157,7 @@ public class DiscoveryFragment extends ListFragment {
 
     switch(item.getItemId()) {
       case R.id.actionChat:
-      // fragmentListener.selectChat();
+        fragmentListener.startChatClient(device);
         return(true);
       case R.id.actionTime:
         TimeClient timeClient = new TimeClient();

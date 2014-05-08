@@ -16,6 +16,7 @@
   <string name="button_discoverable">Discoverable</string>
   <string name="button_discovery">Discovery</string>
   <string name="button_enable">Enable BlueTooth</string>
+  <string name="button_send">Send</string>
   <string name="button_time_server_start">Start Time Server</string>
   <string name="button_time_server_stop">Stop Time Server</string>
 
@@ -30,13 +31,16 @@
   <string name="label_scan">Scan:</string>
   <string name="label_state">State:</string>
 
+  <string name="toast_empty_string">Empty String</string>
   <string name="toast_must_enable_bluetooth">Must Enable BlueTooth</string>
+  <string name="toast_server_not_running">Server Not Running</string>
   <string name="toast_start_discovery">Starting Discovery</string>
   <string name="toast_stop_discovery">Discovery Complete</string>
 
   <string name="connectable">Connectable</string>
   <string name="discoverable">Discoverable</string>
   <string name="falsex">False</string>
+  <string name="me">Me</string>
   <string name="none">None</string>
   <string name="off">Off</string>
   <string name="on">On</string>

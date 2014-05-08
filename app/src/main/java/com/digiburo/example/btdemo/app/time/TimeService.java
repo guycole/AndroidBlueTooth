@@ -1,4 +1,4 @@
-package com.digiburo.example.btdemo.app;
+package com.digiburo.example.btdemo.app.time;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -13,7 +13,7 @@ import java.io.OutputStream;
 import java.util.UUID;
 
 /**
- * Server side time service.
+ * Server side time service.  Insecure only.
  * @author gsc
  */
 public class TimeService {

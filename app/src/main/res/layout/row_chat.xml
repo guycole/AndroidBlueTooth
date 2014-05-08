@@ -6,12 +6,12 @@
   android:layout_height="match_parent">
 
   <TextView
-    android:id="@+id/deviceName"
+    android:id="@+id/chatAuthor"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"/>
 
   <TextView
-    android:id="@+id/deviceAddress"
+    android:id="@+id/chatMessage"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"/>
 </LinearLayout>
