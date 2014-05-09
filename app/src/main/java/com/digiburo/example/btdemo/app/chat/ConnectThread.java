@@ -52,8 +52,6 @@ public class ConnectThread extends AbstractParent implements Runnable {
     Log.d(LOG_TAG, "connected run()");
     Log.d(LOG_TAG, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     Log.d(LOG_TAG, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-    Log.d(LOG_TAG, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-    Log.d(LOG_TAG, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 
     // cancel discovery because it will slow down a connection
     adapter.cancelDiscovery();
@@ -72,6 +70,8 @@ public class ConnectThread extends AbstractParent implements Runnable {
       connectionFailed();
       return;
     }
+
+    Log.d(LOG_TAG, "run past connect");
 
     // Reset the ConnectThread because we're done
     synchronized(ConnectThread.this) {
